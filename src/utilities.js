@@ -1,27 +1,85 @@
 /* uncomment the export below to enable the 1.1.2 test suite! */
-/* export */ function compareIngredientsCB(ingredientA, ingredientB){
-    return // TODO
+ export function compareIngredientsCB(ingredientA, ingredientB){
+    if(ingredientA.aisle > ingredientB.aisle){
+        return 1;
+    }
+    else if(ingredientA.aisle < ingredientB.aisle){
+        return -1;
+    }
+    else if(ingredientA.aisle===ingredientB.aisle){
+        if(ingredientA.name > ingredientB.name){
+            return 1;
+        }
+        if(ingredientA.name < ingredientB.name){
+            return -1;
+        }
+        return 0;
+    }
+
+    //return 0// TODO
 }
 
 export function sortIngredients(ingredients){
-    return // TODO
+
+    return [...ingredients].sort(compareIngredientsCB); // TODO
 }
 
-/* export */ function isKnownTypeCB(type){
+ export  function isKnownTypeCB(type){
     // don't forget the return keyword (goes for all functions below)
+    if(type === "starter"){
+        return true;
+    }
+    else if(type === "main course"){
+        return true;
+    }else if(type === "dessert"){
+        return true;
+    }
+     return false;
+  
 }
 
 export function dishType(dish){
+    if(dish.dishTypes === undefined ){
+        return "";
+    }
+    const array = dish.dishTypes.filter(isKnownTypeCB);
+        
+    if(array[0]!== undefined){
+        return array[0];
+    }else return "";
 }
 
-/* export */ function compareDishesCB(dishA, dishB){
+ export  function compareDishesCB(dishA, dishB){
+    /* const type1 = dishType(dishA)  ;
+    const type2 = dishType(dishB) ;
+    debugger;
+    if(type1 > type2)
+        return 1;
+    if(type1 < type2)
+        return -1;
+    return 0;*/
+    const valueOfdishType = {
+        "": 1,
+        starter: 2,
+        "main course": 3,
+        dessert: 4
+    };
+    //debugger;
+    return valueOfdishType[dishType(dishA)] - valueOfdishType[dishType(dishB)];
+
 }
 
 
 export function sortDishes(dishes){
+    return [...dishes].sort(compareDishesCB);
 }
 
-/*export */ function menuPrice(dishesArray){
+export function menuPrice(dishesArray){
+    return  dishesArray.reduce(sumUpCB,0);
+    function sumUpCB(acc, dishesArray){
+        //debugger;
+        return acc + dishesArray.pricePerServing;
+    }
  
 }
 
@@ -33,7 +91,7 @@ export function sortDishes(dishes){
    
    As this is not an algorithm course, the function is mostly written but you have 2 callback passing TODOs.
 */
-function shoppingList(dishes){
+export function shoppingList(dishes){
     const result={}; // object used as mapping between ingredient ID and ingredient object
 
     // we define the callback inside the function, though this is not strictly needed in this case. But see below.
@@ -63,9 +121,9 @@ function shoppingList(dishes){
         }
     }
 
-    const arrayOfIngredientArrays= dishes.map(/*TODO pass the callback that transforms a dish to its ingredients */);
+    const arrayOfIngredientArrays= dishes.map(keepJustIngredientsCB/*TODO pass the callback that transforms a dish to its ingredients */);
     const allIngredients= arrayOfIngredientArrays.flat();    
-    allIngredients.forEach(/* TODO: pass the callback that treats an ingredient */);
+    allIngredients.forEach(ingredientCB/* TODO: pass the callback that treats an ingredient */);
 
     // Note: the 3 lines above can be written as a function chain:
     // dishes.map(callback1).flat().forEach(callback2);

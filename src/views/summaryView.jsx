@@ -1,6 +1,7 @@
 // un-comment when needed:
-//import {sortIngredients} from "/src/utilities.js";
-//import "/src/style.css"
+import {sortIngredients} from "/src/utilities.js";
+import "/src/style.css"
+//import "/src/test/dishesConst.js"
 
 /* Functional JSX component. Name must start with capital letter */
 export function SummaryView(props){
@@ -16,8 +17,7 @@ export function SummaryView(props){
 
 
 
-              {/* TW 1.3: remove this line (and the TW1.3 one below) to uncomment
-
+              {
               <table>
                 <thead>
                   <tr>
@@ -30,12 +30,13 @@ export function SummaryView(props){
                 <tbody>
                   { //  <---- in JSX/HTML, with this curly brace, we go back to JavaScript
                     // Here Array Rendering is used to generate a table row for each element of the ingredients prop (an array) 
-                    props.TODO?.map(ingredientTableRowCB)
+                  
+                    sortIngredients(props.ingredients)?.map(ingredientTableRowCB)
                   }
                 </tbody>
               </table>
 
-              TW 1.3: remove this line to uncomment */} 
+              } 
 
 
 
@@ -46,10 +47,10 @@ export function SummaryView(props){
     /* callback for Array Rendering in TW 1.3 */
     function ingredientTableRowCB(ingr){
         return <tr key={ /* Reflect on what's a key in array rendering! */ ingr.id } >
-                 <td>{ingr.name}</td>
-                 <td>TODO aisle</td>
-                 <td className="TODO">TODO qty</td>
-                 <td> TODO unit </td>
+                 <td >{ingr.name}</td>
+                 <td  >{ingr.aisle}</td>
+                 <td className="inalign">{((ingr.amount)*(props.people)).toFixed(2)}</td>
+                 <td >{ingr.unit}</td>
                </tr>;
     }
 }

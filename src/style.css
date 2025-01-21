@@ -1,4 +1,10 @@
 /* A debug class, used to separate components graphically during development */
 .debug {
     border-style:solid;
+
 }
+
+.inalign{
+    text-align: right;  
+}
+

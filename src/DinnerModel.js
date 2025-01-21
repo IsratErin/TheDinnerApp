@@ -9,26 +9,42 @@ export const model = {
 
     setCurrentDishId(dishId){
         // this.someProperty= someValue
+        this.currentDishId = dishId;
     },
     
     setNumberOfGuests(number){
-
+        //debugger
+        //this.numberOfGuests = number;
+        if(number> 0){
+            if (Number.isInteger(number)){
+                this.numberOfGuests = number;
+            }else{
+                throw new Error("number of guests not a positive integer");
+            }          
+        }else{
+            throw new Error("number of guests not a positive integer");
+        }
+          
     },
     
     addToMenu(dishToAdd){
         // array spread syntax exercise
         // It sets this.dishes to a new array [   ] where we spread (...) the elements of the existing this.dishes
-        this.dishes= [...this.dishes, /* replace this comment */];
+        this.dishes= [...this.dishes, dishToAdd/* replace this comment */];
     },
 
     // filter callback exercise
     removeFromMenu(dishToRemove){
         function shouldWeKeepDishCB(dish){
+            if(dish.id !== dishToRemove.id){
+                return true;
+               }
+               return false;
             
         }
-        this.dishes= this.dishes.filter(/* pass the callback */);
+        this.dishes= this.dishes.filter(shouldWeKeepDishCB/* pass the callback */);
     },
-    
+   
  
     // more methods will be added here, don't forget to separate them with comma!
 };
