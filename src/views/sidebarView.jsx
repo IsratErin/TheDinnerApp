@@ -20,20 +20,18 @@ export function SidebarView(props){
 
     }
     function minusButtonHandlerACB(evt){
-        //console.log(props.number - parseInt(1));
+       
         props.onNumberChange(props.number -parseInt(1));
         console.log(props.number - parseInt(1));
 
     }
-    function customEventHandlerACB(number){
-        console.log("My custom event :", number);
-    }
+    
     return (
         <div className="debug">
                    
-            <button disabled={props.number===1} onClick={minusButtonHandlerACB} onNumberChange={customEventHandlerACB} >-</button>
+            <button disabled={props.number===1} onClick={minusButtonHandlerACB}  >-</button>
             {props.number}
-            <button onClick={plusButtonHandlerACB} onNumberChange={customEventHandlerACB}  >+</button>  
+            <button onClick={plusButtonHandlerACB}   >+</button>  
              
             {
             <table>
@@ -77,9 +75,9 @@ export function SidebarView(props){
         }
         
         return  <tr key={dish.id}>
-                 <td><button onClick={xbuttonHandlerACB} removeThisDish={removeDishHandler} >x</button></td>
+                 <td><button onClick={xbuttonHandlerACB}  >x</button></td>
                 
-                 <td><a href="#" onClick={clickOnLinkHandlerACB} wantThisDish={dishHandlerACB}>{dish.title}</a></td>
+                 <td><a href="#" onClick={clickOnLinkHandlerACB} >{dish.title}</a></td>
                  <td>{dishType(dish)}</td>
                  
                 <td className="inalign">{((dish.pricePerServing)*(props.number)).toFixed(2)}</td>
