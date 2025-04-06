@@ -1,91 +1,85 @@
-import {shoppingList} from "/src/utilities.js";
-import {dishType, menuPrice, sortDishes} from "/src/utilities.js";
+import { sortDishes, menuPrice, dishType } from "../utilities.js";
 
-import "/src/style.css"
-
-export function SidebarView(props){
-   // return "SidebarView stub: number is "+props.number + " and we have "+props.dishes.length+ " dishes";
-    /*function button(){
-        if(props.number===1){
-            <button disabled={props.number===1}>-</button>
-        }else{
-        return <button>-</button>;
-        }
-    }*/
-    function plusButtonHandlerACB(evt){
-        //console.log(props.number + parseInt(1));
-        props.onNumberChange(props.number + parseInt(1));
-        console.log(props.number + parseInt(1));
-        
-
-    }
-    function minusButtonHandlerACB(evt){
-       
-        props.onNumberChange(props.number -parseInt(1));
-        console.log(props.number - parseInt(1));
-
-    }
-    
+export function SidebarView(props) {
+  function showButton() {
+    // If the number is less than or equal to 1, disable the button
     return (
-        <div className="debug">
-                   
-            <button disabled={props.number===1} onClick={minusButtonHandlerACB}  >-</button>
-            {props.number}
-            <button onClick={plusButtonHandlerACB}   >+</button>  
-             
-            {
-            <table>
-                
-                <tbody>
-
-                    {
-                       sortDishes(props.dishes)?.map(dishTableRowCB)
-                    }
-                    
-                    <tr>
-                        <td></td>
-                        <td>Total:</td>
-                        <td></td>
-                        <td className="inalign">{(menuPrice(props.dishes)*(props.number)).toFixed(2)}</td>
-
-                    </tr>
-                </tbody>
-            </table>
-             }
-        </div>
+      <button
+        title="decrease"
+        disabled={props.number <= 1}
+        onClick={decreaseACB}
+      >
+        -
+      </button>
     );
+  }
 
-    function dishTableRowCB(dish){
+  function increaseACB() {
+    onNumberChange(props.number + 1);
+  }
 
-        function xbuttonHandlerACB(evt){
-            //console.log(evt);
-            props.removeThisDish(dish);
-            console.log("removed");
-        }
-        function clickOnLinkHandlerACB(evt){
-            //console.log(evt);
-            props.wantThisDish(dish);
-            console.log("Want This dish");
-        }
-        function dishHandlerACB(dish){
-            console.log(dish);
-        }
-        function removeDishHandler(dish){
-            console.log(dish);
-        }
-        
-        return  <tr key={dish.id}>
-                 <td><button onClick={xbuttonHandlerACB}  >x</button></td>
-                
-                 <td><a href="#" onClick={clickOnLinkHandlerACB} >{dish.title}</a></td>
-                 <td>{dishType(dish)}</td>
-                 
-                <td className="inalign">{((dish.pricePerServing)*(props.number)).toFixed(2)}</td>
-             </tr>;
-    
+  function decreaseACB() {
+    onNumberChange(props.number - 1);
+  }
 
-       
+  function onNumberChange(newNumber) {
+    props.onNumberChange(newNumber);
+  }
 
+  return (
+    <div className="sidebar">
+      <div className="guest-control">
+        {showButton()}
+        <span className="guest-number">{props.number}</span>
+        <button title="increase" onClick={increaseACB}>
+          +
+        </button>
+      </div>
+      <table className="menu-table">
+        <tbody>
+          {sortDishes(props.dishes).map(dishesTableRowCB)}
+          <tr className="total-row">
+            <td></td>
+            <td>Total:</td>
+            <td></td>
+            <td className="align-right">
+              {(menuPrice(props.dishes) * props.number).toFixed(2)}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
 
+  function dishesTableRowCB(dish) {
+    // Display the dish in a table row
+    function xClickedACB() {
+      props.removeDish(dish);
     }
+
+    // Display the dish in a table row
+    function clickDishACB() {
+      props.dishClicked(dish);
+    }
+
+    return (
+      <tr key={dish.id} className="menu-item">
+        <td className="width">
+          <button className="remove-button" onClick={xClickedACB}>
+            X
+          </button>
+        </td>
+        <td className="dishNameWidth">
+          <a href="#/details" className="dish-link" onClick={clickDishACB}>
+            {dish.title}
+          </a>
+        </td>
+        <td className="width">{dishType(dish)}</td>
+        {/* Display the price of the dish */}
+        <td className="priceAlign-right">
+          {(dish.pricePerServing * props.number).toFixed(2)}
+        </td>
+      </tr>
+    );
+  }
 }
