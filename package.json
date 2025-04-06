@@ -1,0 +1,33 @@
+{
+    "name": "npm_tutorial",
+    "version": "2.0.0",
+    "description": "DH2642 tutorial",
+    "type": "module",
+    "scripts": {
+        "start": "vite",
+        "dev": "vite",
+        "build": "vite build",
+        "serve": "vite preview"
+    },
+    "devDependencies": {
+        "@testing-library/react": "^16.0.1",
+        "@testing-library/vue": "^8.1.0",
+        "@vitejs/plugin-vue": "4.0.0",
+        "chai": "^5.1.2",
+        "mocha": "^10.8.2",
+        "vite": "^4.5.5",
+        "vite-plugin-node-polyfills": "^0.22.0",
+        "vite-plugin-virtual-html": "^1.2.2",
+        "parse-git-config": "^3.0.0"
+    },
+    "dependencies": {
+        "firebase": "^11.0.2",
+        "mobx": "^6.13.5",
+        "mobx-react-lite": "^4.0.7",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "react-router-dom": "^6.28.0",
+        "vue": "^3.5.13",
+        "vue-router": "^4.4.5"
+    }
+}
