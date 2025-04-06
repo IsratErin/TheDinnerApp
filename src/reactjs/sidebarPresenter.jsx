@@ -1,30 +1,25 @@
 import { observer } from "mobx-react-lite";
-import { SidebarView } from "/src/views/sidebarView.jsx";
+import { SidebarView } from "../views/sidebarView.jsx";
 
-
-const Sidebar = observer(             // needed for the presenter to update (its view) when relevant parts of the model change
+const Sidebar = observer(
     function SidebarRender(props){
-        function handleChangeNoOfGuestACB(number){
-            //debugger;
-            props.model.setNumberOfGuests(number);
-    
+        function changeNumberOfGuestsACB(newNumber){
+            props.model.setNumberOfGuests(newNumber);
         }
-        function handleCurrentDishACB(dish){
+
+        function setDishACB(dish){
             props.model.setCurrentDishId(dish.id);
-            //debugger;
-            //props.model.addToMenu(dish);
         }
-        function removeACB(dish){
-           // debugger;
+
+        function removeDishACB(dish){
             props.model.removeFromMenu(dish);
         }
 
-        return <SidebarView number={props.model.numberOfGuests}
+        return <SidebarView number={props.model.numberOfGuests} 
                             dishes={props.model.dishes}
-                            onNumberChange={handleChangeNoOfGuestACB}
-                            wantThisDish= {handleCurrentDishACB}
-                          removeThisDish= {removeACB} 
-                            />;
+                            onNumberChange={changeNumberOfGuestsACB}
+                            dishClicked={setDishACB}
+                            removeDish={removeDishACB}/>;
     }
 );
 
