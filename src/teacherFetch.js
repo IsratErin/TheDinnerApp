@@ -23,13 +23,13 @@ window.fetch=function(url, params){
 
 // removing stupid react router warnings from the console
 function testWarnCB(param){
-    return param.indexOf && param.indexOf("React Router Future Flag Warning")!=-1;
+    return param?.indexOf && param.indexOf("React Router Future Flag Warning")!=-1;
 }
 
 const oldConsoleWarn= console.warn;
 
 console.warn= function(...params){
-    if(!params.find(testWarnCB))
+    if(!params?.find(testWarnCB))
 	oldConsoleWarn(...params);
 }
 

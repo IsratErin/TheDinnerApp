@@ -1,86 +1,73 @@
 /* uncomment the export below to enable the 1.1.2 test suite! */
- export function compareIngredientsCB(ingredientA, ingredientB){
-    if(ingredientA.aisle > ingredientB.aisle){
-        return 1;
-    }
-    else if(ingredientA.aisle < ingredientB.aisle){
-        return -1;
-    }
-    else if(ingredientA.aisle===ingredientB.aisle){
-        if(ingredientA.name > ingredientB.name){
-            return 1;
-        }
-        if(ingredientA.name < ingredientB.name){
-            return -1;
-        }
-        return 0;
+export function compareIngredientsCB(ingredientA, ingredientB){
+    if(ingredientA.aisle < ingredientB.aisle){
+        return -1; // Aisle of ingredientA comes before ingredient B
+    } 
+    if (ingredientA.aisle > ingredientB.aisle) {
+        return 1; // Aisle of ingredientA comes after ingredientB
     }
 
-    //return 0// TODO
+    // If aisles are the same, compare name properties
+    if (ingredientA.name < ingredientB.name){
+        return -1; // Name of ingredientA comes before ingredientB
+    }
+    if (ingredientA.name > ingredientB.name){
+        return 1; // Name of ingredientA comes after ingredientB
+    }
+
+    // If both aisle and name are equal, return 0
+    return 0;
 }
 
 export function sortIngredients(ingredients){
-
-    return [...ingredients].sort(compareIngredientsCB); // TODO
+    return [...ingredients].sort(compareIngredientsCB);
 }
 
- export  function isKnownTypeCB(type){
-    // don't forget the return keyword (goes for all functions below)
-    if(type === "starter"){
-        return true;
-    }
-    else if(type === "main course"){
-        return true;
-    }else if(type === "dessert"){
-        return true;
-    }
-     return false;
-  
+export function isKnownTypeCB(type){
+    // Check if type is starter, main course or dessert
+    return type === "starter" || type === "main course" || type === "dessert";
 }
 
 export function dishType(dish){
-    if(dish.dishTypes === undefined ){
+    // Check if dishTypes exist, if it doesn't return empty string
+    if (!dish.dishTypes) {
         return "";
     }
-    const array = dish.dishTypes.filter(isKnownTypeCB);
-        
-    if(array[0]!== undefined){
-        return array[0];
-    }else return "";
+
+    // Get the first known type from dishTypes array
+    // If no known type found, return undefined
+    const foundType = dish.dishTypes.find(isKnownTypeCB);
+
+    // Return the found type if it exists, otherwise return empty string
+    return foundType || "";
 }
 
- export  function compareDishesCB(dishA, dishB){
-    /* const type1 = dishType(dishA)  ;
-    const type2 = dishType(dishB) ;
-    debugger;
-    if(type1 > type2)
-        return 1;
-    if(type1 < type2)
-        return -1;
-    return 0;*/
-    const valueOfdishType = {
-        "": 1,
-        starter: 2,
-        "main course": 3,
-        dessert: 4
-    };
-    //debugger;
-    return valueOfdishType[dishType(dishA)] - valueOfdishType[dishType(dishB)];
+export function compareDishesCB(dishA, dishB){
+    const sortingOrder = ["", "starter", "main course", "dessert"];
 
+    // Get the index of the dish type in the sortingOrder array
+    const indexA = sortingOrder.indexOf(dishType(dishA));
+    const indexB = sortingOrder.indexOf(dishType(dishB));
+
+    return indexA - indexB;
 }
-
 
 export function sortDishes(dishes){
+    // returns a sorted clone of the original array
     return [...dishes].sort(compareDishesCB);
 }
 
+export function totalPriceCB(totalSum, currentItem){
+    // Takes the total sum, starting from zero
+    // Adds the pricePerServing for current item in the array
+    // dishesArray is looped, adding each pricePerServing to totalSum
+    return totalSum + currentItem.pricePerServing;
+}
+
 export function menuPrice(dishesArray){
-    return  dishesArray.reduce(sumUpCB,0);
-    function sumUpCB(acc, dishesArray){
-        //debugger;
-        return acc + dishesArray.pricePerServing;
-    }
- 
+    // Send the initial accumulator, 0, together with the next element in the array
+    // Returns the total price once it has looped through entire array
+    return dishesArray.reduce(totalPriceCB, 0);
 }
 
 /* 
@@ -121,9 +108,9 @@ export function shoppingList(dishes){
         }
     }
 
-    const arrayOfIngredientArrays= dishes.map(keepJustIngredientsCB/*TODO pass the callback that transforms a dish to its ingredients */);
+    const arrayOfIngredientArrays= dishes.map(keepJustIngredientsCB);
     const allIngredients= arrayOfIngredientArrays.flat();    
-    allIngredients.forEach(ingredientCB/* TODO: pass the callback that treats an ingredient */);
+    allIngredients.forEach(ingredientCB);
 
     // Note: the 3 lines above can be written as a function chain:
     // dishes.map(callback1).flat().forEach(callback2);
@@ -131,4 +118,3 @@ export function shoppingList(dishes){
     // now we transform the result object into an array: we drop the keys and only keep the values
     return Object.values(result);
 }
-
